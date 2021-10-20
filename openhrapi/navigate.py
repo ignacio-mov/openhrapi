@@ -53,4 +53,6 @@ def get_proyectos(session):
     campos = form.find_all('select')
     assert len(campos) == 1
 
-    return [option.text for option in campos[0].children][:-1]
+    datos = [{'nombre': option.text, 'valor': option.attrs['value']}
+             for option in campos[0].children]
+    return datos[:-1]
