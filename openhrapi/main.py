@@ -45,4 +45,5 @@ def check_imputado():
 @app.route('/imputacion', methods=['POST'])
 @auth.login_required
 def imputa():
-    return new_parte(auth.current_user(), request.values['proyecto'])
+    ok = new_parte(session=auth.current_user(), idproyecto=request.values['proyecto'])
+    return {'response': ok}

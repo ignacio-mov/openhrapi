@@ -78,7 +78,7 @@ def new_parte(session, idproyecto, fecha: date = None, horas=8):
     boton = form.find(lambda x: x.get('value') == 'Grabar' and x.get('type') == 'submit')
     data[boton['name']] = boton['value']
 
-    return session.post(form['action'], data=data)
+    return session.post(form['action'], data=data).ok
 
 
 def is_imputado(session, dia: date = None):
