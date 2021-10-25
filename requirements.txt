@@ -4,7 +4,6 @@
 #
 #    pipenv lock --requirements
 #
-
 --extra-index-url https://www.piwheels.org/simple
 
 beautifulsoup4==4.9.3
@@ -20,7 +19,7 @@ colorama==0.4.4; platform_system == 'Windows'
 fake-useragent==0.1.11
 
 flask==2.0.1
-flask_httpauth
+flask_httpauth==4.4.0
 
 idna==2.10; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
 
@@ -38,4 +37,4 @@ urllib3==1.26.5; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.
 
 werkzeug==2.0.1; python_version >= '3.6'
 
-uwsgi
+uwsgi==2.0.20
