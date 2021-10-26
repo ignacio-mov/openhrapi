@@ -40,7 +40,6 @@ def proyectos():
 
 @app.route('/imputado', methods=['GET'])
 @auth.login_required
-@deprecated
 def check_imputado():
     return {'imputado': get_imputado(session=auth.current_user(), day=date.today())}
 
