@@ -1,9 +1,11 @@
+from datetime import date
 from random import random
 from time import sleep
 
 from flask import Flask, request
+from pip._internal.utils.deprecation import deprecated
 
-from openhrapi.navigate import get_logged_session, post_fichaje, get_proyectos, is_imputado, new_parte
+from openhrapi.navigate import get_logged_session, post_fichaje, get_proyectos, is_imputado, new_parte, get_imputado
 from flask_httpauth import HTTPBasicAuth
 
 app = Flask(__name__)
@@ -38,8 +40,15 @@ def proyectos():
 
 @app.route('/imputado', methods=['GET'])
 @auth.login_required
+@deprecated
 def check_imputado():
-    return {'imputado': is_imputado(session=auth.current_user())}
+    return {'imputado': get_imputado(session=auth.current_user(), day=date.today())}
+
+
+@app.route('/imputaciones', methods=['GET'])
+@auth.login_required
+def check_imputado_mes():
+    return {'imputado': get_imputado(session=auth.current_user())}
 
 
 @app.route('/imputacion', methods=['POST'])

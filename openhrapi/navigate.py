@@ -1,3 +1,4 @@
+import calendar
 from datetime import date
 
 import requests
@@ -81,11 +82,19 @@ def new_parte(session, idproyecto, fecha: date = None, horas=8):
     return session.post(form['action'], data=data).ok
 
 
-def is_imputado(session, dia: date = None):
+def get_imputado(session, day=None):
     response = session.get(URL_CONSULTA_PARTE)
     soup = BeautifulSoup(response.text, features="html.parser")
-    proyectos = soup.tbody.children
-    if dia is None:
-        dia = date.today().day
-    horas_hoy = [float(list(p.children)[dia + 4].text) for p in proyectos]
-    return any(horas_hoy)
+
+    fecha = date.today()
+    dias_mes = calendar.monthrange(fecha.year, fecha.month)[1]
+    x = [is_imputado(soup.tbody.children, d) for d in range(1, dias_mes+1)]
+
+    if day:
+        return x[day.day-1]
+    else:
+        return dict(enumerate(x, start=1))
+
+
+def is_imputado(proyectos, d):
+    return any(float(list(p.children)[d + 4].text) for p in proyectos)
