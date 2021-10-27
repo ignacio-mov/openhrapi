@@ -53,5 +53,9 @@ def check_imputado_mes():
 @app.route('/imputacion', methods=['POST'])
 @auth.login_required
 def imputa():
-    ok = new_parte(session=auth.current_user(), idproyecto=request.values['proyecto'])
+    dia = date.today()
+    if param_dia := request.values['dia']:
+        dia = dia.replace(day=int(param_dia))
+    ok = new_parte(session=auth.current_user(), idproyecto=request.values['proyecto'], fecha=dia)
     return {'response': ok}
+
