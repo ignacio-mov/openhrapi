@@ -1,12 +1,15 @@
+from flask import Flask
+from openhrapi.config import LOG_LEVEL
+
+
+
 from datetime import date
-from random import random
-from time import sleep
 
-from flask import Flask, request
-from pip._internal.utils.deprecation import deprecated
-
-from openhrapi.navigate import get_logged_session, post_fichaje, get_proyectos, is_imputado, new_parte, get_imputado
+from flask import request
 from flask_httpauth import HTTPBasicAuth
+
+from openhrapi.navigate import get_logged_session, post_fichaje, get_proyectos, new_parte, get_imputado
+
 
 app = Flask(__name__)
 app.logger.setLevel(LOG_LEVEL)
