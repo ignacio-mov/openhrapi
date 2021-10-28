@@ -9,11 +9,13 @@ from openhrapi.navigate import get_logged_session, post_fichaje, get_proyectos, 
 from flask_httpauth import HTTPBasicAuth
 
 app = Flask(__name__)
+app.logger.setLevel(LOG_LEVEL)
 auth = HTTPBasicAuth()
 
 
 @auth.verify_password
 def verify_password(username, password):
+    app.logger.debug(f'autenticando {username}')
     try:
         s = get_logged_session(usuario=username, password=password)
     except ValueError as ex:
@@ -58,4 +60,3 @@ def imputa():
         dia = dia.replace(day=int(param_dia))
     ok = new_parte(session=auth.current_user(), idproyecto=request.values['proyecto'], fecha=dia)
     return {'response': ok}
-
