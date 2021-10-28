@@ -9,14 +9,14 @@ from flask_httpauth import HTTPBasicAuth
 from openhrapi import app
 from openhrapi.navigate import get_logged_session, post_fichaje, get_proyectos, new_parte, get_imputado
 
-cache = Cache(app, config={'CACHE_TYPE': 'UWSGICache',
-                           'CACHE_UWSGI_NAME': 'openhr_cache@localhost'})
+cache = Cache(app, config={'CACHE_TYPE': 'flask_caching.contrib.uwsgicache.UWSGICache',
+                           'CACHE_UWSGI_NAME': 'openhr_cache'})
 
 auth = HTTPBasicAuth()
 
 
 @auth.verify_password
-@cache.memoize(50)
+@cache.memoize(120)
 def verify_password(username, password):
     app.logger.debug(f'autenticando "{username}"')
     try:

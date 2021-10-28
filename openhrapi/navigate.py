@@ -9,9 +9,9 @@ from openhrapi.config import URL_FICHAJE, URL_PARTE, URL_CONSULTA_PARTE, URL_BAS
 
 
 def get_logged_session(usuario, password):
-    ua = UserAgent().random
+    ua = UserAgent()
     session = requests.session()
-    session.headers['User-Agent'] = ua
+    session.headers['User-Agent'] = ua.chrome
 
     response = session.get(URL_BASE)
     soup = BeautifulSoup(response.text, features="html.parser")
