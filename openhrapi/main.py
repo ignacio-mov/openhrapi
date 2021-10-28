@@ -1,16 +1,13 @@
+from datetime import date
 from random import random
 from time import sleep
 
-from datetime import date
-
 from flask import request
+from flask_caching import Cache
 from flask_httpauth import HTTPBasicAuth
 
 from openhrapi import app
 from openhrapi.navigate import get_logged_session, post_fichaje, get_proyectos, new_parte, get_imputado
-
-
-from flask_caching import Cache
 
 cache = Cache(app, config={'CACHE_TYPE': 'UWSGICache',
                            'CACHE_UWSGI_NAME': 'openhr_cache@localhost'})

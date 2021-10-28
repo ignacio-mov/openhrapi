@@ -9,7 +9,6 @@ from openhrapi.config import URL_FICHAJE, URL_PARTE, URL_CONSULTA_PARTE, URL_BAS
 
 
 def get_logged_session(usuario, password):
-
     ua = UserAgent().random
     session = requests.session()
     session.headers['User-Agent'] = ua
@@ -89,10 +88,10 @@ def get_imputado(session, day=None):
 
     fecha = date.today()
     dias_mes = calendar.monthrange(fecha.year, fecha.month)[1]
-    x = [is_imputado(soup.tbody.children, d) for d in range(1, dias_mes+1)]
+    x = [is_imputado(soup.tbody.children, d) for d in range(1, dias_mes + 1)]
 
     if day:
-        return x[day.day-1]
+        return x[day.day - 1]
     else:
         return dict(enumerate(x, start=1))
 
