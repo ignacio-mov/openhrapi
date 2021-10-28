@@ -1,32 +1,36 @@
-from flask import Flask
-from openhrapi.config import LOG_LEVEL
-
-
+from random import random
+from time import sleep
 
 from datetime import date
 
 from flask import request
 from flask_httpauth import HTTPBasicAuth
 
+from openhrapi import app
 from openhrapi.navigate import get_logged_session, post_fichaje, get_proyectos, new_parte, get_imputado
 
 
-app = Flask(__name__)
-app.logger.setLevel(LOG_LEVEL)
+from flask_caching import Cache
+
+cache = Cache(app, config={'CACHE_TYPE': 'UWSGICache',
+                           'CACHE_UWSGI_NAME': 'openhr_cache@localhost'})
+
 auth = HTTPBasicAuth()
 
 
 @auth.verify_password
+@cache.memoize(50)
 def verify_password(username, password):
-    app.logger.debug(f'autenticando {username}')
+    app.logger.debug(f'autenticando "{username}"')
     try:
         s = get_logged_session(usuario=username, password=password)
     except ValueError as ex:
         app.logger.info(ex)
-        app.logger.debug(username, password)
+        app.logger.debug(f'{username}:{password}')
         return False
 
     sleep(random() * 5 + 5)
+    app.logger.debug(f'Session: {s.cookies}')
     return s
 
 

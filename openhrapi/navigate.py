@@ -5,15 +5,16 @@ import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
-from openhrapi.config import URL_FICHAJE, URL_PARTE, URL_CONSULTA_PARTE
+from openhrapi.config import URL_FICHAJE, URL_PARTE, URL_CONSULTA_PARTE, URL_BASE
 
 
 def get_logged_session(usuario, password):
+
     ua = UserAgent().random
     session = requests.session()
     session.headers['User-Agent'] = ua
 
-    response = session.get(URL_FICHAJE)
+    response = session.get(URL_BASE)
     soup = BeautifulSoup(response.text, features="html.parser")
     form = soup.form
 
