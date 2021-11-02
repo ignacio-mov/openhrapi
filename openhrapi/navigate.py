@@ -87,13 +87,17 @@ def get_imputado(session, day=None):
     soup = BeautifulSoup(response.text, features="html.parser")
 
     fecha = date.today()
-    dias_mes = calendar.monthrange(fecha.year, fecha.month)[1]
-    x = [is_imputado(soup.tbody.children, d) for d in range(1, dias_mes + 1)]
 
-    if day:
-        return x[day.day - 1]
-    else:
-        return dict(enumerate(x, start=1))
+    dias_mes = calendar.monthrange(fecha.year, fecha.month)[1]
+    try:
+        data = [is_imputado(soup.tbody.children, d) for d in range(1, dias_mes + 1)]
+    except AttributeError:
+        data = [False for _ in range(1, dias_mes + 1)]
+
+    try:
+        return data[day.day - 1]
+    except AttributeError:
+        return dict(enumerate(data, start=1))
 
 
 def is_imputado(proyectos, d):
